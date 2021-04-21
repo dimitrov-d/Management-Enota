@@ -1,5 +1,7 @@
 <template>
 	<v-app>
+		<v-btn v-if="$store.getters.loggedIn" @click="logout" depressed dark>LOGOUT</v-btn>
+		
 		<v-main>
 			<router-view/>
 		</v-main>
@@ -15,7 +17,10 @@
 			}
 		},
 		methods: {
-			
+			logout() {
+				this.$store.commit('setToken', null)
+				this.$router.push('Login')
+			}
 		}
 	}
 </script>

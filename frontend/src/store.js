@@ -7,16 +7,16 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
 	plugins: [createPersistedState({ storage: window.localStorage })],
 	state: {
-		user: null,
+		token: null,
 	},
 	getters: {
-		user(state) {
-			return state.user
+		loggedIn(state) {
+			return state.token != null
 		}
 	},
 	mutations: {
-		setUser(state, user) {
-			state.user = user
+		setToken(state, token) {
+			state.token = token
 		}
 	}
 })
