@@ -37,11 +37,11 @@ export default {
     methods: {
         login() {
             const loginData = {
-                username: this.username,
+                email: this.username,
                 password: this.password
             };
             axios
-                .post('localhost::3123/auth/login', loginData)
+                .post('http://localhost:3123/auth/login', loginData)
                 .then(response => console.log(response))
         },
     }

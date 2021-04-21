@@ -13,7 +13,8 @@ export class AuthController {
 
   async loginUser(req, reply) {
     const { body: { email, password } } = req
-
+    console.log(req.body)
+    console.log(email, password)
     if (!email || !password) return sendReply(reply, 403, 'Invalid credentials')
     const user = (await this.db.collection('users').find({ email: { $eq: email } }).toArray())[0]
     if (!user) return sendReply(reply, 403, 'User not found')
