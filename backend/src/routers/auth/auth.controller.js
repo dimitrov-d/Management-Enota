@@ -17,7 +17,6 @@ export class AuthController {
     if (!email || !password) return sendReply(reply, 403, 'Invalid credentials')
     const user = (await this.db.collection('users').find({ email: { $eq: email } }).toArray())[0]
     if (!user) return sendReply(reply, 403, 'User not found')
-    console.log(3)
     if (!(await bcrypt.compare(password, user.password))) {
         return sendReply(reply, 400, 'Password is incorrect')
     }
