@@ -6,7 +6,7 @@
                 <v-card outlined max-width="500" class="mt-10">
                     <v-card-title>Welcome</v-card-title>
                     <v-card-text>
-                        <v-text-field outlined hide-details v-model="username" label="Username" class="mb-5"></v-text-field>
+                        <v-text-field outlined hide-details v-model="email" label="Email" class="mb-5"></v-text-field>
                         <v-text-field outlined hide-details v-model="password" label="Password" type="password"></v-text-field>
                         <v-card v-show="error" color="error" dark class="mt-5">
                             <v-card-text>{{error}}</v-card-text>
@@ -29,7 +29,7 @@ export default {
     name: 'Login',
     data() {
         return {
-            username: '',
+            email: '',
             password: '',
             error: null,
         }
@@ -37,7 +37,7 @@ export default {
     methods: {
         login() {
             const loginData = {
-                email: this.username,
+                email: this.email,
                 password: this.password
             };
             axios
