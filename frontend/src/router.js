@@ -4,12 +4,16 @@ import { store } from './store'
 
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
+import Applications from './components/Applications.vue'
+import Appointments from './components/Appointments.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
 	{ path: '/Login', name: 'Login', component: Login, meta: { requiresVisitor: true } },
 	{ path: '/', name: 'Home', component: Home },
+	{ path: '/Applications', name: 'Applications', component: Applications },
+	{ path: '/Appointments', name: 'Appointments', component: Appointments },
 	{ path: '*', redirect: '/' },
 ]
 
