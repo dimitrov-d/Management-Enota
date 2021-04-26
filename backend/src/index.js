@@ -1,8 +1,8 @@
 import fastify from 'fastify'
-import { authRouterCreator } from './routers'
 import { MongoClient } from 'mongodb'
 import dotenv from 'dotenv'
 import fastifyCors from 'fastify-cors'
+import {authRouterCreator, applicationsRouterCreator, appointmentsRouterCreator } from './routers'
 
 const path = `${process.cwd()}/.env`
 dotenv.config({ path })
@@ -17,8 +17,12 @@ const bootup = async () =>
         if (err) throw new Error(err)
         const db = client.db('enota')
         const authRouter = authRouterCreator(db)
+        const appointmentsRouter = appointmentsRouterCreator(db)
+        const applicationsRouter = applicationsRouterCreator(db)
         app.register(fastifyCors, { origin: 'http://localhost:8080' });
-        app.register(authRouter, { prefix: '/auth' })
+        app.register(authRouter, { prefix: '/auth' });
+        app.register(appointmentsRouter, { prefix: '/appointments' });
+        app.register(applicationsRouter, { prefix: '/applications' });
 
         app.listen(3123, async (err, address) =>
         {
