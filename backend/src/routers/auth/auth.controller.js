@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import { User } from '../../models/user'
 
 const sendReply = async (reply, code, status) => reply.code(code).send({ code, status })
 
@@ -8,6 +9,7 @@ export class AuthController {
     this.db = db
 
     this.loginUser = this.loginUser.bind(this)
+    this.registerUser = this.registerUser.bind(this)
     // this.logoutUser = this.logoutUser.bind(this)
   }
 
@@ -26,6 +28,14 @@ export class AuthController {
 
     const accessToken = await jwt.sign({ id, surname, name }, process.env.SECRET_TOKEN, { expiresIn: '1d' })
     return reply.code(200).send({ accessToken })
+  }
+
+  registerUser(req, reply) {
+    const { body: { email, password } } = req;
+    if (!email || !password) return sendReply(reply, 400, 'Please enter valid credentials')
+    const user = new User(email, password);
+    console.log(user);
+    this.db.collection('users').insert(user);
   }
 
 //   async logoutUser(req, reply) {
