@@ -33,9 +33,8 @@ export class AuthController {
   registerUser(req, reply) {
     const { body: { email, password } } = req;
     if (!email || !password) return sendReply(reply, 400, 'Please enter valid credentials')
-    const user = new User(email, password);
-    console.log(user);
-    this.db.collection('users').insert(user);
+    const user = new User(req.body);
+    this.db.collection('users').insertOne(user);
   }
 
 //   async logoutUser(req, reply) {
