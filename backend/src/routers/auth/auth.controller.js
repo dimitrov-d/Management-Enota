@@ -30,11 +30,13 @@ export class AuthController {
     return reply.code(200).send({ accessToken })
   }
 
-  registerUser(req, reply) {
-    const { body: { email, password } } = req;
+  async registerUser(req, reply) {
+    const { body: { email, password } } = req
     if (!email || !password) return sendReply(reply, 400, 'Please enter valid credentials')
     const user = new User(req.body);
-    this.db.collection('users').insertOne(user);
+    const totalUsers = await this.db.collection('users').countDocuments()
+    this.db.collection('users').insertOne({...user, id: totalUsers + 1})
+    return reply.code(200).send({status: 'Ok'})
   }
 
 //   async logoutUser(req, reply) {

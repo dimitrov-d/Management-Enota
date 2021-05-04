@@ -2,7 +2,12 @@ import fastify from 'fastify'
 import { MongoClient } from 'mongodb'
 import dotenv from 'dotenv'
 import fastifyCors from 'fastify-cors'
-import {authRouterCreator, applicationsRouterCreator, appointmentsRouterCreator } from './routers'
+import {
+    authRouterCreator, 
+    applicationsRouterCreator, 
+    appointmentsRouterCreator,
+    userRouterCreator
+} from './routers'
 
 const path = `${process.cwd()}/.env`
 dotenv.config({ path })
@@ -19,10 +24,12 @@ const bootup = async () =>
         const authRouter = authRouterCreator(db)
         const appointmentsRouter = appointmentsRouterCreator(db)
         const applicationsRouter = applicationsRouterCreator(db)
+        const userRouter = userRouterCreator(db)
         app.register(fastifyCors, { origin: 'http://localhost:8080' });
         app.register(authRouter, { prefix: '/auth' });
         app.register(appointmentsRouter, { prefix: '/appointments' });
         app.register(applicationsRouter, { prefix: '/applications' });
+        app.register(userRouter, { prefix: '/user' });
 
         app.listen(3123, async (err, address) =>
         {

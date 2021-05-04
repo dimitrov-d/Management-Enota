@@ -5,14 +5,22 @@ export class ApplicationsController {
     this.db = db
 
     this.addApplication = this.addApplication.bind(this)
+    this.getApplication = this.getApplication.bind(this)
   }
 
   async addApplication(req, reply) {
-    const { body: { userId, applicationType, documents } } = req
+    const { user: { id } } = req
+    const { body: { applicationType, documents } } = req
     if (!applicationType || !documents) return sendReply(reply, 400, 'Invalid request')
-    this.db.collection('applications').insert({ userId, applicationType, documents})
+    this.db.collection('applications').insert({ userId: id, applicationType, documents})
 
-    return reply.code(200).send({ accessToken })
+    return reply.code(200).send({status: 'OK'})
+  }
+
+  async getApplication(req, reply) {
+    const { user: { id } } = req
+    const application = await this.db.collection('applications').find({ userId: { $eq: id } }).toArray()
+    return reply.code(200).send(application)
   }
 
 }
