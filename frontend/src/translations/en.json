@@ -3,6 +3,17 @@
 	"Home",
 	"Applications",
 	"Appointments",
-	"Welcome",
-	"LOGIN"
+	"Select a date and time for your appointment:",
+	"Request appointment",
+	"Request sent",
+	"Select a time",
+	"Email:",
+	"Current applications",
+	"No current applications",
+	"Scheduled appointments",
+	"No scheduled appointments",
+	"Login",
+	"Register",
+	"LOGIN",
+	"REGISTER"
 ]

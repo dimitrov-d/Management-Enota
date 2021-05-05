@@ -44,12 +44,25 @@ export default {
             axios.post('http://localhost:3123/auth/login', loginData)
 			.then(response => {
 				this.$store.commit('setToken', response.data.accessToken)
-				this.$router.push({ name: 'Home' })
+				this.getUserInfo()
 			})
 			.catch(error => {
 				this.error = error.message
 			})
         },
+		getUserInfo() {
+			axios.get('http://localhost:3123/user',
+			{
+				'headers': {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + this.$store.getters.token
+				}
+			})
+			.then(response => {
+				this.$store.commit('setUser', response.data)
+				this.$router.push({ name: 'Home' })
+			})
+		}
     }
 }
 </script>
