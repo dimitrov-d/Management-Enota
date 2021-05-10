@@ -7,8 +7,6 @@
 						<v-btn fab disabled small class="mr-5"><v-icon>mdi-account</v-icon></v-btn>
 						{{user.name}}
 						{{user.surname}}
-						<v-spacer></v-spacer>
-						<v-btn v-if="!editingProfile" @click="editingProfile = true" fab depressed small><v-icon>mdi-pencil</v-icon></v-btn>
 					</v-card-title>
 					<v-card-text>
 						<v-row>
@@ -29,9 +27,11 @@
 							</v-col>
 						</v-row>
 					</v-card-text>
-					<v-card-actions v-if="editingProfile">
+					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn @click="saveProfile" depressed dark color="success"><translate>Save</translate></v-btn>
+						<v-btn v-show="!editingProfile" @click="editingProfile = true" depressed><translate>Edit</translate></v-btn>
+						<v-btn v-show="editingProfile" @click="editingProfile = false" depressed dark color="error"><translate>Cancel</translate></v-btn>
+						<v-btn v-show="editingProfile" @click="saveProfile" depressed dark color="success"><translate>Save</translate></v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-col>
@@ -42,8 +42,33 @@
 					<v-card-title>
 						<translate>Current applications</translate>
 					</v-card-title>
-					<v-card-text>
+					<v-card-text v-if="!application">
 						<translate>No current applications</translate>
+					</v-card-text>
+					<v-card-text v-else>
+						<v-row>
+							<v-col>
+								<v-card outlined>
+									<v-card-title>
+										<translate>{{application.name}}</translate>
+									</v-card-title>
+									<v-card-text>
+										<v-row class="pl-3 pb-3">
+											<v-card v-for="(requirement,i) in application.requirements" :key="i" class="d-flex flex-wrap mt-4 mr-4" outlined width="200px" height="200px">
+												<v-card-title>
+													<translate>{{requirement.name}}</translate>
+												</v-card-title>
+												<v-card-text style="text-align: center;">
+													<v-badge :value="requirement.completed" bordered color="success" icon="mdi-check" overlap>
+														<v-btn fab tile outlined :disabled="requirement.completed" x-large><v-icon>mdi-file</v-icon></v-btn>
+													</v-badge>
+												</v-card-text>
+											</v-card>
+										</v-row>
+									</v-card-text>
+								</v-card>
+							</v-col>
+						</v-row>
 					</v-card-text>
 				</v-card>
 			</v-col>
@@ -80,7 +105,24 @@ export default {
 			appointments: [
 				new Date('2021-05-10T08:00'),
 				new Date('2021-05-17T08:30'),
-			]
+			],
+			application: {
+				name: 'Student Visa',
+				requirements: [
+					{
+						name: 'Application form',
+						completed: true
+					},
+					{
+						name: 'ID card scan',
+						completed: true
+					},
+					{
+						name: 'Bank statements',
+						completed: false
+					},
+				],
+			}
 		}
 	},
 	computed: {
