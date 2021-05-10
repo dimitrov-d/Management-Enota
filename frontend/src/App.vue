@@ -9,7 +9,7 @@
 				<v-btn @click="logout" depressed light dense><translate>LOGOUT</translate></v-btn>
 				
 				<template v-slot:extension>
-					<v-tabs align-with-title>
+					<v-tabs :key="guiReload" align-with-title>
 						<v-tab to="/"><translate>Home</translate></v-tab>
 						<v-tab to="/Applications"><translate>Applications</translate></v-tab>
 						<v-tab to="/Appointments"><translate>Appointments</translate></v-tab>
@@ -32,7 +32,7 @@
 		name: 'App',
 		data() {
 			return {
-				
+				guiReload: 0,
 			}
 		},
 		computed: {
@@ -50,6 +50,7 @@
 		watch: {
 			'$language.current'(val) {
 				this.$store.commit('setLang', val)
+				this.guiReload++
 			}
 		},
 		created() {

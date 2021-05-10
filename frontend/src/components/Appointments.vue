@@ -54,6 +54,20 @@ export default {
 			snackbar: false,
 		}
 	},
+	watch: {
+		'$language.current'() {
+			this.availableTimes = [
+				{
+					text: this.$gettext('Select a time'),
+					value: null
+				},
+				'08:00',
+				'08:30',
+				'12:30',
+				'14:15',
+			]
+		}
+	},
 	methods: {
 		requestAppointment() {
 			// var dateTime = new Date(this.date + 'T' + this.time)
