@@ -4,7 +4,7 @@
 			<v-col>
 				<v-row justify="center">
 					<v-card outlined class="ma-5">
-						<v-card-title style="word-break: break-word;"><translate>Select a date and time for your appointment:</translate></v-card-title>
+						<v-card-title><translate>Select a date and time for your appointment:</translate></v-card-title>
 						<v-row class="pa-3">
 							<v-col>
 								<v-row justify="center" class="ma-2">
@@ -25,12 +25,6 @@
 				</v-row>
 			</v-col>
 		</v-row>
-		<v-snackbar v-model="snackbar" color="success">
-			<translate>Request sent</translate>
-			<template v-slot:action="{ attrs }">
-				<v-btn color="success" fab small depressed v-bind="attrs" @click="snackbar = false"><v-icon dark>mdi-close</v-icon></v-btn>
-			</template>
-		</v-snackbar>
 	</v-container>
 </template>
 
@@ -51,7 +45,6 @@ export default {
 				'12:30',
 				'14:15',
 			],
-			snackbar: false,
 		}
 	},
 	watch: {
@@ -71,7 +64,7 @@ export default {
 	methods: {
 		requestAppointment() {
 			// var dateTime = new Date(this.date + 'T' + this.time)
-			this.snackbar = true
+			this.$emit('snackbar', this.$gettext('Request sent'))
 		},
 	}
 }

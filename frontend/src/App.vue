@@ -6,7 +6,7 @@
 				
 				<v-spacer></v-spacer>
 				
-				<v-btn @click="logout" depressed light dense><translate>LOGOUT</translate></v-btn>
+				<v-btn @click="logout" depressed light dense><translate>Logout</translate></v-btn>
 				
 				<template v-slot:extension>
 					<v-tabs :key="guiReload" align-with-title>
@@ -17,13 +17,19 @@
 				</template>
 			</v-app-bar>
 			
-			<router-view/>
+			<router-view @snackbar="(m, c) => { snackbar.message = m; snackbar.colour = c || 'success'; snackbarVisible = true }" />
 			
 			<v-footer app height="52">
 				<v-spacer></v-spacer>
 				<v-select v-model="$language.current" :items="languages" outlined dense style="max-width: 200px;"></v-select>
 			</v-footer>
 		</v-main>
+		<v-snackbar v-model="snackbarVisible" :color="snackbar.colour">
+			{{snackbar.message}}
+			<template v-slot:action="{ attrs }">
+				<v-btn :color="snackbar.colour" fab small depressed v-bind="attrs" @click="snackbarVisible = false"><v-icon dark>mdi-close</v-icon></v-btn>
+			</template>
+		</v-snackbar>
 	</v-app>
 </template>
 
@@ -33,6 +39,11 @@
 		data() {
 			return {
 				guiReload: 0,
+				snackbarVisible: false,
+				snackbar: {
+					message: '',
+					colour: 'success',
+				},
 			}
 		},
 		computed: {
@@ -65,3 +76,8 @@
 	}
 </script>
 
+<style>
+.v-card__title {
+	word-break: break-word;
+}
+</style>

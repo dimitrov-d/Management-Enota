@@ -18,12 +18,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <a class="mb-2" href="/Login">
-                            <translate>Login</translate>
-                        </a>
-                        <v-btn depressed dark type="submit" class="ml-2 mr-2 mb-2">
-                            <translate>REGISTER</translate>
-                        </v-btn>
+						<v-btn class="mb-2" :to="{ name: 'Login' }" text><translate>Login</translate></v-btn>
+                        <v-btn depressed dark type="submit" class="ml-2 mr-2 mb-2"><translate>Register</translate></v-btn>
                     </v-card-actions>
                 </v-card>
             </v-form>
