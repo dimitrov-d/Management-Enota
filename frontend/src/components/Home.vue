@@ -60,7 +60,7 @@
 													{{requirement()}}
 												</v-card-title>
 												<v-card-subtitle>
-													<translate>Status:</translate> {{a.documents[requirement.name].confirmed ? $gettext('confirmed') : $gettext('processing')}}
+													<translate>Status:</translate> {{a.documents[requirement.name].confirmed || $gettext('processing')}}
 												</v-card-subtitle>
 												<v-card-text style="text-align: center;">
 													<v-badge v-if="a.documents[requirement.name].confirmed" bordered color="success" icon="mdi-check" overlap>
@@ -74,7 +74,7 @@
 										</v-row>
 										<v-row class="mb-0 mt-5">
 											<v-spacer></v-spacer>
-												<v-btn @click="closeApplication(a._id)" dark depressed>Close application</v-btn>
+												<v-btn @click="closeApplication(a._id)" dark depressed><translate>Close application</translate></v-btn>
 											<v-spacer></v-spacer>
 										</v-row>
 									</v-expansion-panel-content>
@@ -140,7 +140,7 @@ export default {
 			.then(response => {
 				this.userApplications = response.data
 				this.userApplications.forEach(a => {
-					a.documents[Object.keys(a.documents)[0]].confirmed = true
+					a.documents[Object.keys(a.documents)[0]].confirmed = this.$gettext('confirmed')
 				})
 			})
 			.catch(error => {

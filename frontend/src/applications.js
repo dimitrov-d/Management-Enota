@@ -1,29 +1,25 @@
 import Vue from 'vue'
 
-function t(s) {
-	return Vue.prototype.$gettext(s)
-}
-
 export default {
 	'studentVisa': {
-		name: () => t('Student Visa'),
+		name: () => Vue.prototype.$gettext && Vue.prototype.$gettext('Student Visa'),
 		requirements: {
-			'applicationForm': () => t('Application form'),
-			'idCardScan': () => t('ID card scan'),
-			'bankStatements': () => t('Bank statements'),
+			'applicationForm': () => Vue.prototype.$gettext && Vue.prototype.$gettext('Application form'),
+			'idCardScan': () => Vue.prototype.$gettext && Vue.prototype.$gettext('ID card scan'),
+			'bankStatements': () => Vue.prototype.$gettext && Vue.prototype.$gettext('Bank statements'),
 		},
 	},
 	'workVisa': {
-		name: () => t('Work Visa'),
+		name: () => Vue.prototype.$gettext && Vue.prototype.$gettext('Work Visa'),
 		requirements: {
-			'applicationForm': () => t('Application form'),
-			'idCardScan': () => t('ID card scan'),
+			'applicationForm': () => Vue.prototype.$gettext && Vue.prototype.$gettext('Application form'),
+			'idCardScan': () => Vue.prototype.$gettext && Vue.prototype.$gettext('ID card scan'),
 		}
 	},
 	'temporaryResidence': {
-		name: () => t('Temporary Residence'),
+		name: () => Vue.prototype.$gettext && Vue.prototype.$gettext('Temporary Residence'),
 		requirements: {
-			'applicationForm': () => t('Application form'),
+			'applicationForm': () => Vue.prototype.$gettext && Vue.prototype.$gettext('Application form'),
 		}
 	},
 }
