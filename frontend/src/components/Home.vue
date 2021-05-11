@@ -96,7 +96,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
 	name: 'Home',
 	data() {
@@ -133,11 +133,23 @@ export default {
 	methods: {
 		saveProfile() {
 			this.editingProfile = false
+			delete this.user._id
+			axios.post('http://localhost:3123/user/update', this.user, {
+				'headers': {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + this.$store.getters.token
+				}
+			})
+			.then(() => {
+			this.$store.commit('setUser', this.user)
 			this.$emit('snackbar', this.$gettext('Profile saved'))
+			})
+			.catch(error => {
+			this.$emit('snackbar', this.$gettext('Error saving data: ' + error))
+			})
 		},
 		removeAppointment(i) {
 			if(window.confirm(this.$gettext('Are you sure you want to remove this appointment?'))) {
-				
 				this.appointments.splice(i, 1)
 			}
 		},
