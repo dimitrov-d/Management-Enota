@@ -55,8 +55,8 @@
 									</v-expansion-panel-header>
 									<v-expansion-panel-content>
 										<v-row class="pl-3 pb-3">
-											<v-card v-for="(requirement, j) in applications[a.applicationType].requirements" :key="j" class="d-flex flex-wrap mt-4 mr-4" outlined width="200px" height="200px">
-												<v-card-title>
+											<v-card v-for="(requirement, j) in applications[a.applicationType].requirements" :key="j" class="d-flex flex-wrap mt-4 mr-4" outlined width="200px" height="250px">
+												<v-card-title style="height: 100px;" class="pt-0">
 													{{requirement()}}
 												</v-card-title>
 												<v-card-subtitle>

@@ -78,7 +78,7 @@
 
 <style>
 .v-card__title, .v-card__title * {
-	word-break: break-word;
+	word-break: break-word !important;
 }
 
 .v-expansion-panel::before {
