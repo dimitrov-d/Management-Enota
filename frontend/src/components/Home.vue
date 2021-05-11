@@ -72,11 +72,11 @@
 												</v-card-text>
 											</v-card>
 										</v-row>
-										<v-row class="mb-0 mt-5">
+										<!-- <v-row class="mb-0 mt-5">
 											<v-spacer></v-spacer>
 												<v-btn @click="closeApplication(a._id)" dark depressed><translate>Close application</translate></v-btn>
 											<v-spacer></v-spacer>
-										</v-row>
+										</v-row> -->
 									</v-expansion-panel-content>
 								</v-expansion-panel>
 							</v-expansion-panels>
