@@ -85,7 +85,7 @@
 					<v-card-text v-else>
 						<v-row>
 							<v-col>
-								<v-chip v-for="(a, i) in appointments" :key="i" class="ma-2" close @click:close="removeAppointment(i)" ><v-icon left>mdi-calendar</v-icon>{{a.toLocaleString($language.current)}}</v-chip>
+								<v-chip v-for="(a, i) in appointments" :key="i" class="ma-2" close @click:close="removeAppointment(i)" ><v-icon left>mdi-calendar</v-icon>{{new Date(a.datetime).toLocaleString($language.current)}}</v-chip>
 							</v-col>
 						</v-row>
 					</v-card-text>
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
 	name: 'Home',
 	data() {
@@ -122,13 +122,37 @@ export default {
 						completed: false
 					},
 				],
-			}
+			},
+			applications: []
 		}
 	},
 	computed: {
 		user() {
 			return this.$store.getters.user
 		}
+	},
+	created() {
+		axios.post(
+			'http://localhost:3123/applications/getApplication',
+			{ user: { id: this.user._id} },
+			{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
+			.then(response => {
+				this.applications = response.data
+			})
+			.catch(error => {
+				this.$emit('snackbar', error.message, 'error')
+			})
+		
+		
+		axios.get(
+			'http://localhost:3123/appointments',
+			{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
+			.then(response => {
+				this.appointments = response.data
+			})
+			.catch(error => {
+				this.$emit('snackbar', error.message, 'error')
+			})
 	},
 	methods: {
 		saveProfile() {
@@ -137,8 +161,19 @@ export default {
 		},
 		removeAppointment(i) {
 			if(window.confirm(this.$gettext('Are you sure you want to remove this appointment?'))) {
-				
-				this.appointments.splice(i, 1)
+				axios.post(
+					'http://localhost:3123/appointments/deleteAppointment',
+					{
+						appId: this.appointments[i]._id,
+					},
+					{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
+					.then(() => {
+						this.appointments.splice(i, 1)
+						this.$emit('snackbar', this.$gettext('Appointment removed'))
+					})
+					.catch(error => {
+						this.$emit('snackbar', error.message, 'error')
+					})
 			}
 		},
 	},

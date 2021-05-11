@@ -12,9 +12,6 @@
                         <v-text-field outlined hide-details v-model="surname" label="Surname" class="mb-5"></v-text-field>
                         <v-text-field outlined hide-details v-model="email" label="Email" class="mb-5"></v-text-field>
                         <v-text-field outlined hide-details v-model="password" label="Password" type="password"></v-text-field>
-                        <v-card v-show="error" color="error" dark class="mt-5">
-                            <v-card-text>{{error}}</v-card-text>
-                        </v-card>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -38,7 +35,6 @@ export default {
             surname: '',
             email: '',
             password: '',
-            error: null,
         }
     },
     methods: {
@@ -52,7 +48,7 @@ export default {
             axios.post('http://localhost:3123/auth/register', data)
                 .then(() => this.$router.push({ name: 'Login' }))
                 .catch(error => {
-                    this.error = error.message
+                    this.$emit('snackbar', error.message, 'error')
                 })
         },
     }

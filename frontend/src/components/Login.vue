@@ -8,9 +8,6 @@
 						<v-card-text>
 							<v-text-field outlined hide-details v-model="email" :label="$gettext('Email')" class="mb-5"></v-text-field>
 							<v-text-field outlined hide-details v-model="password" :label="$gettext('Password')" type="password"></v-text-field>
-							<v-card v-show="error" color="error" dark class="mt-5">
-								<v-card-text>{{error}}</v-card-text>
-							</v-card>
 						</v-card-text>
 						<v-card-actions>
 							<v-spacer></v-spacer>
@@ -32,7 +29,6 @@ export default {
         return {
             email: '',
             password: '',
-            error: null,
         }
     },
     methods: {
@@ -47,13 +43,13 @@ export default {
 				this.getUserInfo()
 			})
 			.catch(error => {
-				this.error = error.message
+				this.$emit('snackbar', error.message, 'error')
 			})
         },
 		getUserInfo() {
 			axios.get('http://localhost:3123/user',
 			{
-				'headers': {
+				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': 'Bearer ' + this.$store.getters.token
 				}
@@ -61,6 +57,9 @@ export default {
 			.then(response => {
 				this.$store.commit('setUser', response.data)
 				this.$router.push({ name: 'Home' })
+			})
+			.catch(error => {
+				this.$emit('snackbar', error.message, 'error')
 			})
 		}
     }

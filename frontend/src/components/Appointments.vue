@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
 	name: 'Appointments',
 	data() {
@@ -47,6 +48,11 @@ export default {
 			],
 		}
 	},
+	computed: {
+		user() {
+			return this.$store.getters.user
+		}
+	},
 	watch: {
 		'$language.current'() {
 			this.availableTimes = [
@@ -63,8 +69,18 @@ export default {
 	},
 	methods: {
 		requestAppointment() {
-			// var dateTime = new Date(this.date + 'T' + this.time)
-			this.$emit('snackbar', this.$gettext('Request sent'))
+			axios.post(
+				'http://localhost:3123/appointments/addAppointment',
+				{
+					datetime: new Date(this.date + 'T' + this.time),
+				},
+				{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
+				.then(() => {
+					this.$emit('snackbar', this.$gettext('Request sent'))
+				})
+				.catch(error => {
+					this.$emit('snackbar', error.message, 'error')
+				})
 		},
 	}
 }
