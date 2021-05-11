@@ -62,6 +62,7 @@
 			'$language.current'(val) {
 				this.$store.commit('setLang', val)
 				this.guiReload++
+				this.$forceUpdate()
 			}
 		},
 		created() {

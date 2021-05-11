@@ -130,6 +130,13 @@ export default {
 			return applications
 		}
 	},
+	watch: {
+		'$language.current'() {
+			this.userApplications.forEach(a => {
+				a.documents[Object.keys(a.documents)[0]].confirmed = this.$gettext('confirmed')
+			})
+		}
+	},
 	created() {
 		this.getUser()
 		
