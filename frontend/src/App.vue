@@ -77,7 +77,11 @@
 </script>
 
 <style>
-.v-card__title {
+.v-card__title, .v-card__title * {
 	word-break: break-word;
+}
+
+.v-expansion-panel::before {
+	box-shadow: none !important;
 }
 </style>

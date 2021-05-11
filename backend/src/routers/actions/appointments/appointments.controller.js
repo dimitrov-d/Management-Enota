@@ -13,7 +13,6 @@ export class AppointmentsController {
   async addAppointment(req, reply) {
     const { user: { id } } = req
     const { body: { datetime } } = req
-	// console.log('aaaaaaaaaaaaaaaaa ' + JSON.stringify(req))
     if (!datetime) return sendReply(reply, 400, 'Invalid request')
     this.db.collection('appointments').insert({ userId: id, datetime})
 

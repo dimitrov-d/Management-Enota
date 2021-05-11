@@ -8,6 +8,7 @@ function getTranslationsFromFile(filename) {
 
 var all = []
 all = all.concat(getTranslationsFromFile('../App.vue'))
+all = all.concat(getTranslationsFromFile('../applications.js'))
 filenames = fs.readdirSync('../components')
 filenames.forEach(filename => {
 	all = [ ... new Set(all.concat(getTranslationsFromFile('../components/' + filename))) ]

@@ -4,15 +4,15 @@
 			<v-col>
 				<v-row justify="center">
 					<v-card outlined class="ma-5">
-						<v-card-title><translate>Select a date and time for your appointment:</translate></v-card-title>
+						<v-card-title><translate>Select a date and time for your appointment</translate></v-card-title>
 						<v-row class="pa-3">
 							<v-col>
-								<v-row justify="center" class="ma-2">
+								<v-row justify="center" class="ma-3">
 									<v-date-picker dark v-model="date" :locale="$language.current"></v-date-picker>
 								</v-row>
 							</v-col>
 							<v-col>
-								<v-row justify="center" class="ma-2">
+								<v-row justify="center" class="ma-3">
 									<v-select v-model="time" :items="availableTimes" outlined style="width: 290px; max-width: 290px;"></v-select>
 								</v-row>
 							</v-col>
@@ -36,26 +36,14 @@ export default {
 		return {
 			date: new Date().toISOString().substr(0, 10),
 			time: null,
-			availableTimes: [
-				{
-					text: this.$gettext('Select a time'),
-					value: null
-				},
-				'08:00',
-				'08:30',
-				'12:30',
-				'14:15',
-			],
 		}
 	},
 	computed: {
 		user() {
 			return this.$store.getters.user
-		}
-	},
-	watch: {
-		'$language.current'() {
-			this.availableTimes = [
+		},
+		availableTimes() {
+			return [
 				{
 					text: this.$gettext('Select a time'),
 					value: null
