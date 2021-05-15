@@ -1,5 +1,6 @@
-import { ObjectId } from 'mongodb'
-const sendReply = async (reply, code, status) => reply.code(code).send({ code, status })
+import { ObjectId } from "mongodb";
+const sendReply = async (reply, code, status) =>
+  reply.code(code).send({ code, status });
 
 export class AppointmentsController {
   constructor(db) {
@@ -18,8 +19,12 @@ export class AppointmentsController {
       body: { datetime },
     } = req;
     if (!datetime) return sendReply(reply, 400, "Invalid request");
-    const totalAppointments = await this.db.collection("appointments").countDocuments();
-    this.db.collection("appointments").insert({ id: totalAppointments + 1, userId: id, datetime });
+    const totalAppointments = await this.db
+      .collection("appointments")
+      .countDocuments();
+    this.db
+      .collection("appointments")
+      .insert({ id: totalAppointments + 1, userId: id, datetime });
 
     return reply.code(200).send({ status: "Ok" });
   }
@@ -37,11 +42,13 @@ export class AppointmentsController {
   }
 
   async deleteAppointment(req, reply) {
-    const {  user: { id }, } = req;
+    const {
+      user: { id },
+    } = req;
     try {
       await this.db
         .collection("appointments")
-        .remove({ id: req.body.appId, userId: id });
+        .deleteOne({ userId: { $eq: id }, _id: ObjectId(req.body.appId) });
     } catch (err) {
       console.log(err);
     }

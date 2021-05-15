@@ -19,7 +19,7 @@ export class ApplicationsController {
   }
 
   async deleteApplication(req, reply) {
-    const {  user: { id }, } = req;
+    const { user: { id }, } = req;
     try {
       await this.db
         .collection("applications")
