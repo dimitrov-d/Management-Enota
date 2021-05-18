@@ -1,11 +1,20 @@
+import { pipeline } from 'stream'
+import { promisify } from 'util'
+import { createWriteStream, unlink, access, constants, mkdir } from 'fs'
+
 const sendReply = async (reply, code, status) => reply.code(code).send({ code, status })
 
+const pump = promisify(pipeline)
+
+const mkup = promisify(mkdir)
+const accuss = promisify(access)
 export class ApplicationsController {
   constructor(db) {
     this.db = db
 
     this.addApplication = this.addApplication.bind(this)
     this.getApplication = this.getApplication.bind(this)
+    this.acceptDocument = this.acceptDocument.bind(this)
   }
 
   async addApplication(req, reply) {
@@ -35,5 +44,34 @@ export class ApplicationsController {
     const application = await this.db.collection('applications').find({ userId: { $eq: id } }).toArray()
     return reply.code(200).send(application)
   }
+
+  async __createDirIfNotExist (filesPath) {
+    try {
+      await accuss(filesPath)
+    } catch (error) {
+      await mkup(filesPath)
+    }
+  }
+
+  async acceptDocument(req, reply) {
+    const { user: { id } } = req
+    if (!req.files) return reply.code(400).send('Bad Request, formData is required')
+    const filePath = __dirname + `/documents/${id}`
+
+    const parts = await req.files()
+    for await (const { file, filename } of parts) {
+      const fileInfo = {
+        fileName: filename,
+        path: `${filePath}/${filename}`,
+        textName: filename
+      }
+
+      await pump(file, createWriteStream(fileInfo.path))
+    }
+
+    reply.send({ status: 'Ok' })
+  }
+
+
 
 }
