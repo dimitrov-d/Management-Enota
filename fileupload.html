@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="image-file" />
+
+    <button onclick="upload()">Upload</button>
+</body>
+<script>
+    const upload = () => {
+        let photo = document.getElementById("image-file").files[0];
+        let formData = new FormData();
+             
+        formData.append('myFile', photo)
+        fetch('http://localhost:3123/applications/acceptDocument', {
+            method: "PUT", 
+            body: formData, 
+            // headers: {
+            //     'Content-Type': 'multipart/form-data',
+            // }
+        })
+    }
+</script>
+</html>
