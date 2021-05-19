@@ -7,6 +7,7 @@ const applicationsRouterCreator = db => (fastifyInstance, opts, done) => {
   fastifyInstance.post('/addApplication', { preHandler: verifyUser }, applicationsController.addApplication)
   fastifyInstance.post('/getApplication', { preHandler: verifyUser }, applicationsController.getApplication)
   fastifyInstance.put('/acceptDocument', { preHandler: verifyUser }, applicationsController.acceptDocument)
+  fastifyInstance.get('/documents', { preHandler: verifyUser }, applicationsController.documents)
   done()
 }
 

@@ -1,6 +1,6 @@
 import { pipeline } from 'stream'
 import { promisify } from 'util'
-import { createWriteStream, unlink, access, constants, mkdir } from 'fs'
+import { createWriteStream, unlink, access, constants, mkdir, fstat, readdirSync } from 'fs'
 
 const sendReply = async (reply, code, status) => reply.code(code).send({ code, status })
 
@@ -15,6 +15,7 @@ export class ApplicationsController {
     this.addApplication = this.addApplication.bind(this)
     this.getApplication = this.getApplication.bind(this)
     this.acceptDocument = this.acceptDocument.bind(this)
+    this.documents = this.documents.bind(this)
   }
 
   async addApplication(req, reply) {
@@ -72,6 +73,13 @@ export class ApplicationsController {
     reply.send({ status: 'Ok' })
   }
 
-
+  async documents(req, reply) {
+    const { user: { id } } = req
+    const filePath = __dirname + `/documents/${id}`
+    readdirSync(filePath, (err, files) => {
+      if (!files.length || err) return reply.code(404).send({ message: 'No files found' })
+      reply.code(200).send(files)
+    })
+  }
 
 }
