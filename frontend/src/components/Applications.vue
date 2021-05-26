@@ -88,8 +88,21 @@ export default {
 				this.application,
 				{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
 				.then(() => {
-					this.$emit('snackbar', this.$gettext('Submission sent'))
-					this.$router.push('/')
+					let formData = new FormData();
+					Object.keys(applications[this.application.applicationType].requirements).forEach(r => {
+						formData.append(r, this.application.documents[r])
+					})
+					axios.put(
+						'http://localhost:3123/applications/acceptDocument',
+						formData,
+						{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
+					.then(() => {
+						this.$emit('snackbar', this.$gettext('Submission sent'))
+						this.$router.push('/')
+					})
+					.catch(error => {
+					this.$emit('snackbar', error.message, 'error')
+					})
 				})
 				.catch(error => {
 					this.$emit('snackbar', error.message, 'error')

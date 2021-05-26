@@ -82,6 +82,11 @@
 							</v-expansion-panels>
 						</v-card>
 					</v-card-text>
+					<!-- <v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn @click="downloadFiles" dark depressed><translate>Download your files</translate></v-btn>
+						<v-spacer></v-spacer>
+					</v-card-actions> -->
 				</v-card>
 			</v-col>
 		</v-row>
@@ -235,6 +240,17 @@ export default {
 					this.$emit('snackbar', error.message, 'error')
 				})
 		},
+		downloadFiles() {
+			axios.get(
+				'http://localhost:3123/applications/documents',
+				{ headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.$store.getters.token } })
+				.then(() => {
+					// ?
+				})
+				.catch(error => {
+					this.$emit('snackbar', error.message, 'error')
+				})
+		}
 	},
 }
 </script>
