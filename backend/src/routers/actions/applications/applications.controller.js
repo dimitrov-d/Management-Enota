@@ -22,9 +22,11 @@ export class ApplicationsController {
     const { user: { id } } = req
     const { body: { applicationType, documents } } = req
     if (!applicationType || !documents) return sendReply(reply, 400, 'Invalid request')
+	if(await this.db.collection('applications').countDocuments({ userId: { $eq: id } })) {
+		return sendReply(reply, 400, 'Application already exists')
+	}
     const totalApplications = await this.db.collection("applications").countDocuments();
     this.db.collection('applications').insert({ id: totalApplications + 1, userId: id, applicationType, documents})
-
     return reply.code(200).send({status: 'OK'})
   }
 
@@ -58,7 +60,7 @@ export class ApplicationsController {
     const { user: { id } } = req
     if (!req.files) return reply.code(400).send('Bad Request, formData is required')
     const filePath = __dirname + `/documents/${id}`
-
+	await this.__createDirIfNotExist(filePath)
     const parts = await req.files()
     for await (const { file, filename } of parts) {
       const fileInfo = {

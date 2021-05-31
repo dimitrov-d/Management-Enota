@@ -101,7 +101,7 @@ export default {
 						this.$router.push('/')
 					})
 					.catch(error => {
-					this.$emit('snackbar', error.message, 'error')
+						this.$emit('snackbar', error.message, 'error')
 					})
 				})
 				.catch(error => {
